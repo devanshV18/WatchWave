@@ -1,22 +1,21 @@
 // require('dotenv').config({path: './env'})
+
+//APPROACH 2 - STANDARD USAGE
+
+//modular dot env import
 import dotenv from "dotenv"
 
-
-// NOTE - FOR APPROACH 2 WE CAN REMOVE IMPORT MONGOOSE AND DB_NAME BUT FOR APPROACH 1 BOTH IMPORTS ARE NEEDED
-// import mongoose from "mongoose";
-// import { DB_NAME } from "./constants";
-
-//abfbainfiafn
+//function import
 import connectDB from "./db/index.js";
 
+//importing express app
+import {app} from './app.js'
+
+//DOTENV CONFIG
 dotenv.config({path: './env'})
 
 //APPROACH 2
 //since connectDB() is a async function it returns us a promise at the end and hence we handle it using then chaining
-
-//creating express app
-import express from "express"
-const app = express()
 
 //handling connectDB async promises in then and catch
 connectDB().then(()=>{
@@ -28,6 +27,16 @@ connectDB().then(()=>{
 }).catch((err) => {
     console.log("MONGO db connection FAILED !!!",err)
 })
+
+
+
+
+
+
+
+// NOTE - FOR APPROACH 2 WE CAN REMOVE IMPORT MONGOOSE AND DB_NAME BUT FOR APPROACH 1 BOTH IMPORTS ARE NEEDED
+// import mongoose from "mongoose";
+// import { DB_NAME } from "./constants";
 
 
 /*APPROACH 1 TO CONNECT DATABASE
