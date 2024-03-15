@@ -61,7 +61,7 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     //6
-    User.create({
+    const user = await User.create({
         fullname,
         avatar: avatar.url,
         username: username.toLowerCase(),
@@ -70,6 +70,13 @@ const registerUser = asyncHandler( async (req, res) => {
         password,
 
     })
+
+    //7
+    const createdUser = await User.findById(user._id).select(
+        "-password -refreshToken"
+    )
+
+
 
 
 
