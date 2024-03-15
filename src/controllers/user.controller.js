@@ -1,6 +1,8 @@
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {ApiError} from "../utils/ApiError.js"
 import {User} from "../models/user.model.js"  //proxy user and model
+import { uploadOnCloudianry } from "../utils/cloudinary.js"
+import { upload } from "../middlewares/multer.middleware.js"
 
 const registerUser = asyncHandler( async (req, res) => {
     // get user details from frontend as per usermodel
@@ -32,6 +34,8 @@ const registerUser = asyncHandler( async (req, res) => {
         throw new ApiError(400,"All fields are required")
     }
 
+    //3
+
     const existedUser = User.findOne({
         $or: [{ username } , { email }]
     })
@@ -39,6 +43,34 @@ const registerUser = asyncHandler( async (req, res) => {
     if(existedUser){
         throw new ApiError(409,"User with email or username alrteady exists")
     }
+
+    //4
+    const avatarLocalPath =  req.files?.avatar[0]?.path
+    const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+    if (!avatarLocalPath) {
+        throw new ApiError(400,"Avatar is required")
+    }
+
+    //5
+    const avatar = await uploadOnCloudianry(avatarLocalPath)
+    const coverImage = await uploadOnCloudianry(coverImageLocalPath)
+
+    if (!avatar) {
+        throw new ApiError(400,"Avatar is required")
+    }
+
+    //6
+    User.create({
+        fullname,
+        avatar: avatar.url,
+        username: username.toLowerCase(),
+        email,
+        coverImage: coverImage?.url || "",
+        password,
+
+    })
+
 
 
 
