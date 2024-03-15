@@ -2,7 +2,7 @@ import {asyncHandler} from "../utils/asyncHandler.js"
 import {ApiError} from "../utils/ApiError.js"
 import {User} from "../models/user.model.js"  //proxy user and model
 import { uploadOnCloudianry } from "../utils/cloudinary.js"
-import { upload } from "../middlewares/multer.middleware.js"
+import { ApiResponse } from "../utils/ApiResponse.js" 
 
 const registerUser = asyncHandler( async (req, res) => {
     // get user details from frontend as per usermodel
@@ -75,6 +75,19 @@ const registerUser = asyncHandler( async (req, res) => {
     const createdUser = await User.findById(user._id).select(
         "-password -refreshToken"
     )
+
+    //8
+
+    if(!createdUser){
+        throw new ApiError(500,"Something went wrong while registering the user")
+    }
+
+    //9
+     return res.status(201).json(
+        new ApiResponse(200,createdUser, "User Registered Successfully")
+     )
+
+
 
 
 
