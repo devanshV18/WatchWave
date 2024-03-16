@@ -19,7 +19,7 @@ const registerUser = asyncHandler( async (req, res) => {
     //1
 
     const {fullname, email, username, password} = req.body
-    console.log("email: ", email);
+    // console.log("email: ", email);
 
     //2 - check for all if
     // if(fullname === ""){
@@ -46,15 +46,22 @@ const registerUser = asyncHandler( async (req, res) => {
 
     //4
     const avatarLocalPath =  req.files?.avatar[0]?.path;
-    const coverImageLocalPath = req.files?.coverImage[0]?.path;
+
+    // let coverImageLocalPath;
+    // if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
+    //     coverImageLocalPath = req.files.coverImage[0].path
+    // }
+    const coverImageLocalPath = req.files?.coverImage[0]?.path
 
     if (!avatarLocalPath) {
-        throw new ApiError(401,"Avatar is required")
+        throw new ApiError(401,"Avatar Local Path is missing")
     }
 
     //5
-    const avatar = await uploadOnCloudianry(avatarLocalPath)
-    const coverImage = await uploadOnCloudianry(coverImageLocalPath)
+    const avatar =  await uploadOnCloudianry(avatarLocalPath)
+    const coverImage =  await uploadOnCloudianry(coverImageLocalPath)
+
+    
 
     if (!avatar) {
         throw new ApiError(400,"Avatar is required")
