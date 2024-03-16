@@ -63,7 +63,7 @@ const registerUser = asyncHandler( async (req, res) => {
     }
 
     if (!avatarLocalPath) {
-        throw new ApiError(401,"Avatar Local Path is missing")
+        throw new ApiError(407,"Avatar Local Path is missing")
     }
 
     //5
