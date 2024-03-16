@@ -5,8 +5,8 @@ import fs from "fs"  //node file system library - read write remove etc of files
           
 cloudinary.config({ 
   cloud_name:process.env.CLOUDINARY_CLOUD_NAME, 
-  api_key:CLOUDINARY_API_KEY,
-  api_secret:CLOUDINARY_API_SECRET
+  api_key:process.env.CLOUDINARY_API_KEY,
+  api_secret:process.env.CLOUDINARY_API_SECRET
 });
 
 const uploadOnCloudianry = async (localFilePath) => {
